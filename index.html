@@ -1,0 +1,79 @@
+<head>
+  <style>
+  body{display:grid;
+  grid-template-columns: 70% 30%;
+  }
+    .head {
+      /* width: ; */
+      display: inline-block;
+    }
+    #URL{
+      display: inline-block;
+    }
+    video {
+      width: 100%;
+      display:block;
+    }
+    img {
+      width: 90%;
+      margin: 0 auto;
+    }
+    .top {
+      width: calc(100% - 300px);
+    }
+    #Search-Result {
+    }
+  </style>
+</head>
+<body>
+  <div>
+    <div class="top">
+      <label class="head">URL:</label><input type="text" id="URL" /><br />
+    </div>
+    <video controls id="video" autoplay></video>
+  </div>
+  <div>
+    <label class="head">Search:</label><input type="text" id="Search" />
+    <div id="Search-Result"></div>
+  </div>
+  <script>
+    function setURL(text) {
+      document.querySelector("#video").src =
+        "https://inv.nadeko.net/latest_version?id=" + text
+       entry.value = text;
+       localStorage.setItem("URL",text)
+    }
+    var entry = document.querySelector("#URL")
+    var search_entry = document.querySelector("#Search")
+    entry.addEventListener("keydown", function (e) {
+      if (e.key == "Enter") {
+        var text = document
+          .querySelector("#URL")
+          .value.replace("https://inv.nadeko.net/watch?v=", "")
+          .replace("&listen=1", "")
+          .replace("https://www.youtube.com/watch?v=", "")
+        setURL(text)
+      }
+    })
+    search_entry.addEventListener("keydown", function (e) {
+      if (e.key == "Enter") {
+        const Http = new XMLHttpRequest()
+        const url =
+          "https://www.googleapis.com/youtube/v3/search?key=AIzaSyAZ4c6OW2P-70obZa6kxFaNOClfuUbXH74&type=video&part=snippet&q=sideorder+ost"
+        Http.open("GET", url)
+        Http.send()
+
+        Http.onreadystatechange = (e) => {
+          if (Http.responseText != "") {
+            var div = document.querySelector("#Search-Result")
+            div.innerHTML = ""
+            JSON.parse(Http.responseText).items.forEach(function (element) {
+              div.innerHTML = `${div.innerHTML}<br><div class="videos"><a href=javascript:setURL("${element.id.videoId}")><img src="${element.snippet.thumbnails.high.url}">${element.snippet.title}</a><br>${element.snippet.channelTitle}</div>`
+            })
+          }
+        }
+      }
+    })
+    setURL(localStorage.getItem("URL"))
+  </script>
+</body>
