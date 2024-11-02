@@ -59,7 +59,7 @@
       if (e.key == "Enter") {
         const Http = new XMLHttpRequest()
         const url =
-          "https://www.googleapis.com/youtube/v3/search?key=AIzaSyAZ4c6OW2P-70obZa6kxFaNOClfuUbXH74&type=video&part=snippet&q=sideorder+ost"
+          "https://www.googleapis.com/youtube/v3/search?key=AIzaSyAZ4c6OW2P-70obZa6kxFaNOClfuUbXH74&type=video&part=snippet&q=" + document.querySelector("#Search")
         Http.open("GET", url)
         Http.send()
 
