@@ -1,19 +1,20 @@
 <head>
   <title>YT Watcher</title>
   <style>
-  body{display:grid;
-  grid-template-columns: 70% 30%;
-  }
+    body {
+      display: grid;
+      grid-template-columns: 70% 30%;
+    }
     .head {
       /* width: ; */
       display: inline-block;
     }
-    #URL{
+    #URL {
       display: inline-block;
     }
     video {
       width: 100%;
-      display:block;
+      display: block;
     }
     img {
       width: 90%;
@@ -32,6 +33,9 @@
       <label class="head">URL:</label><input type="text" id="URL" /><br />
     </div>
     <video controls id="video" autoplay></video>
+    <h2 id="Title"></h2>
+    <p id="Channel"></p>
+    <p id="description"></p>
   </div>
   <div>
     <label class="head">Search:</label><input type="text" id="Search" />
@@ -41,8 +45,42 @@
     function setURL(text) {
       document.querySelector("#video").src =
         "https://inv.nadeko.net/latest_version?id=" + text
-       entry.value = text;
-       localStorage.setItem("URL",text)
+      entry.value = text
+      localStorage.setItem("URL", text)
+
+      const Http = new XMLHttpRequest()
+      const url =
+        "https://www.googleapis.com/youtube/v3/videos?part=contentDetails,statistics,snippet&key=AIzaSyAZ4c6OW2P-70obZa6kxFaNOClfuUbXH74&id=" +
+        document.querySelector("#URL").value
+      Http.open("GET", url)
+      Http.send()
+
+      Http.onreadystatechange = (e) => {
+        if (Http.responseText != "") {
+          var h2 = document.querySelector("#Title")
+          var description = document.querySelector("#description")
+          JSON.parse(Http.responseText).items.forEach(function (element) {
+            h2.innerHTML = `${element.snippet.title}`
+            description.innerHTML = `${element.snippet.description.replace("\n", "<br>")}`
+            const Http = new XMLHttpRequest()
+            const url =
+              "https://www.googleapis.com/youtube/v3/channels?part=snippet&key=AIzaSyAZ4c6OW2P-70obZa6kxFaNOClfuUbXH74&id=" + 
+              element.snippet.channelId
+            console.log(url)
+            Http.open("GET", url)
+            Http.send()
+
+            Http.onreadystatechange = (e) => {
+              if (Http.responseText != "") {
+                var channelTitle = document.querySelector("#Channel")
+                JSON.parse(Http.responseText).items.forEach(function (element) {
+                  channelTitle.innerHTML = `<img src=${element.snippet.thumbnails.high.url} style="width:50px">${element.snippet.title}`
+                })
+              }
+            }
+          })
+        }
+      }
     }
     var entry = document.querySelector("#URL")
     var search_entry = document.querySelector("#Search")
@@ -60,7 +98,8 @@
       if (e.key == "Enter") {
         const Http = new XMLHttpRequest()
         const url =
-          "https://www.googleapis.com/youtube/v3/search?key=AIzaSyAZ4c6OW2P-70obZa6kxFaNOClfuUbXH74&type=video&part=snippet&q=" + document.querySelector("#Search").value
+          "https://www.googleapis.com/youtube/v3/search?key=AIzaSyAZ4c6OW2P-70obZa6kxFaNOClfuUbXH74&type=video&part=snippet&q=" +
+          document.querySelector("#Search").value
         Http.open("GET", url)
         Http.send()
 
