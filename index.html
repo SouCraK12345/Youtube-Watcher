@@ -108,7 +108,7 @@
             var div = document.querySelector("#Search-Result")
             div.innerHTML = ""
             JSON.parse(Http.responseText).items.forEach(function (element) {
-              div.innerHTML = `${div.innerHTML}<br><div class="videos"><a href=javascript:setURL("${element.id.videoId}")><img src="${element.snippet.thumbnails.high.url}">${element.snippet.title}</a><br>${element.snippet.channelTitle}</div>`
+              div.innerHTML = `${div.innerHTML}<br><div class="videos"><a href=javascript:setURL("${element.id.videoId}")><img src="${element.snippet.thumbnails.high.url}"><br>${element.snippet.title}</a><br>${element.snippet.channelTitle}</div>`
             })
           }
         }
