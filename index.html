@@ -42,12 +42,12 @@
     <div id="Search-Result"></div>
   </div>
   <script>
-    function setURL(text) {
+    function setURL(text,tag = true) {
       document.querySelector("#video").src =
         "https://inv.nadeko.net/latest_version?id=" + text
       entry.value = text
       localStorage.setItem("URL", text)
-      location.search = "/?v=" + text
+      location.search = "?v=" + text
 
       const Http = new XMLHttpRequest()
       const url =
@@ -123,9 +123,9 @@
         qHash[qData[0]] = qData[1]
       }
       if (qHash.v) {
-        setURL(qHash.v)
+        setURL(qHash.v,false)
       } else {
-        setURL(localStorage.getItem("URL"))
+        setURL(localStorage.getItem("URL"),false)
       }
     }
   </script>
