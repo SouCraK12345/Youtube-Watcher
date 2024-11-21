@@ -48,7 +48,7 @@
       entry.value = text
       localStorage.setItem("URL", text)
       if (tag) {
-        location.search = "?v=" + text
+      history.pushState( "", "YouTube Watcher", document.location.replace("?","") + text);
       }
 
       const Http = new XMLHttpRequest()
