@@ -47,14 +47,15 @@
         "https://inv.nadeko.net/latest_version?id=" + text
       entry.value = text
       localStorage.setItem("URL", text)
-
+      location.search = "/?v=" + text
+      
       const Http = new XMLHttpRequest()
       const url =
         "https://www.googleapis.com/youtube/v3/videos?part=contentDetails,statistics,snippet&key=AIzaSyAZ4c6OW2P-70obZa6kxFaNOClfuUbXH74&id=" +
         document.querySelector("#URL").value
       Http.open("GET", url)
       Http.send()
-
+      
       Http.onreadystatechange = (e) => {
         if (Http.responseText != "") {
           var h2 = document.querySelector("#Title")
@@ -69,7 +70,7 @@
             console.log(url)
             Http.open("GET", url)
             Http.send()
-
+      
             Http.onreadystatechange = (e) => {
               if (Http.responseText != "") {
                 var channelTitle = document.querySelector("#Channel")
@@ -114,6 +115,18 @@
         }
       }
     })
-    setURL(localStorage.getItem("URL"))
+    if (location.search) {
+    var qStr = location.search.substr(1).split("&");
+    var qHash = {};
+    for (var i=0; i<qStr.length; i++) {
+        var qData = qStr[i].split("=");
+        qHash[qData[0]] = qData[1];
+    }
+    if(qHash.v){
+    setURL(qHash.v)
+    }else{
+    setURL(localStorage.getItem("URL"))}
+    }
+}
   </script>
 </body>
