@@ -131,5 +131,20 @@
         setURL(localStorage.getItem("URL"), false)
       }
     }
+    window.onpopstate = (event) => {
+    if (location.search) {
+      var qStr = location.search.substr(1).split("&")
+      var qHash = {}
+      for (var i = 0; i < qStr.length; i++) {
+        var qData = qStr[i].split("=")
+        qHash[qData[0]] = qData[1]
+      }
+      if (qHash.v) {
+        setURL(qHash.v, false)
+      } else {
+        setURL(localStorage.getItem("URL"), false)
+      }
+    }
+    };
   </script>
 </body>
