@@ -44,7 +44,7 @@
   <script>
     function setURL(text, tag = true) {
       document.querySelector("#video").src =
-        "https://inv.nadeko.net/latest_version?id=" + text
+        "https://inv-cl2.nadeko.net:8448/latest_version?itag=18&id=" + text
       entry.value = text
       localStorage.setItem("URL", text)
       if (tag) {
