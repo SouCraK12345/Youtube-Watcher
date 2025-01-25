@@ -23,8 +23,6 @@
     .top {
       width: calc(100% - 300px);
     }
-    #Search-Result {
-    }
   </style>
 </head>
 <body>
@@ -44,7 +42,7 @@
   <script>
     function setURL(text, tag = true) {
       document.querySelector("#video").src =
-        "https://inv-us2.nadeko.net:8448/latest_version?itag=18&id=" + text
+        "https://inv-eu1-c.nadeko.net/latest_version?&itag=18&id=" + text
       entry.value = text
       localStorage.setItem("URL", text)
       if (tag) {
