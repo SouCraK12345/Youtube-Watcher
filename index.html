@@ -30,7 +30,10 @@
     <div class="top">
       <label class="head">URL:</label><input type="text" id="URL" /><br />
     </div>
-    <video controls id="video" autoplay></video>
+    <video controls id="video" autoplay>
+      <source id="us2">
+      <source id="cl1">
+    </video>
     <h2 id="Title"></h2>
     <p id="Channel"></p>
     <p id="description"></p>
@@ -41,8 +44,11 @@
   </div>
   <script>
     function setURL(text, tag = true) {
-      document.querySelector("#video").src =
+      document.querySelector("#us2").src =
         "https://inv-us2-c.nadeko.net/latest_version?&itag=18&id=" + text
+      document.querySelector("#cl1").src =
+        "https://inv-cl1.nadeko.net/latest_version?&itag=18&id=" + text
+      document.querySelector("#video").load()
       entry.value = text
       localStorage.setItem("URL", text)
       if (tag) {
