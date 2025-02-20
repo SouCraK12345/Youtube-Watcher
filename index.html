@@ -31,6 +31,7 @@
       <label class="head">URL:</label><input type="text" id="URL" /><br />
     </div>
     <video controls id="video" autoplay>
+      <source id="ivc">
       <source id="us2">
       <source id="cl1">
     </video>
@@ -44,6 +45,8 @@
   </div>
   <script>
     function setURL(text, tag = true) {
+      document.querySelector("#ivc").src =
+        "https://nyc1.ivc.ggtyler.dev/latest_version?&itag=18&id=" + text
       document.querySelector("#us2").src =
         "https://inv-us2-c.nadeko.net/latest_version?&itag=18&id=" + text
       document.querySelector("#cl1").src =
